@@ -1,5 +1,6 @@
 """Blindspot v2.0 — Orchestration Graph."""
 
+from pydantic import BaseModel
 from src.state.schema import BlindspotState
 from src.agents.scout import ScoutAgent
 from src.agents.investigator import InvestigatorAgent
@@ -8,6 +9,17 @@ from src.agents.benchmarker import BenchmarkerAgent
 from src.agents.adversary import AdversaryAgent
 from src.agents.negotiator import NegotiatorAgent
 from src.agents.chief_counsel import ChiefCounselAgent
+
+
+def _jsonable(obj):
+    """Recursively coerce Pydantic models / containers to JSON-safe primitives."""
+    if isinstance(obj, BaseModel):
+        return obj.model_dump(mode="json")
+    if isinstance(obj, dict):
+        return {k: _jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_jsonable(v) for v in obj]
+    return obj
 
 
 class BlindspotGraph:
@@ -82,7 +94,7 @@ class BlindspotGraph:
         result = self.agents["scout"].run()
         for k, v in result.items():
             setattr(state, k, v)
-        clauses_data = [c.__dict__ for c in state.scout_output.clauses] if state.scout_output else []
+        clauses_data = _jsonable(state.scout_output.clauses) if state.scout_output else []
         yield {"event": "scout_complete", "data": {"clauses": clauses_data}}
 
         # Planner
@@ -96,7 +108,7 @@ class BlindspotGraph:
         result = self.agents["investigator"].run()
         for k, v in result.items():
             setattr(state, k, v)
-        yield {"event": "investigator_complete", "data": result.get("investigator_profile", {})}
+        yield {"event": "investigator_complete", "data": _jsonable(result.get("investigator_profile", {}))}
 
         # Jurist
         yield {"event": "jurist_start", "data": ""}
@@ -126,7 +138,7 @@ class BlindspotGraph:
             result = self.agents["adversary"].run()
             for k, v in result.items():
                 setattr(state, k, v)
-            yield {"event": "adversary_complete", "data": result.get("exploits", {})}
+            yield {"event": "adversary_complete", "data": _jsonable(result.get("exploits", {}))}
 
         # Negotiator
         yield {"event": "negotiator_start", "data": ""}
@@ -141,6 +153,6 @@ class BlindspotGraph:
         reconciliation = self.agents["chief_counsel"].run_reconciler()
         for k, v in reconciliation.items():
             setattr(state, k, v)
-        yield {"event": "chief_counsel_synthesis", "data": reconciliation.get("final_synthesis", {})}
+        yield {"event": "chief_counsel_synthesis", "data": _jsonable(reconciliation.get("final_synthesis", {}))}
 
         yield {"event": "final_report", "data": {"status": "complete"}}

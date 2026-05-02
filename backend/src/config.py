@@ -16,11 +16,11 @@ class Settings(BaseSettings):
     # Gemini API (google.genai package)
     google_api_key: str = "AIzaSyDO7FTAnsTEgajmhIuMVqAAXW8-5Zhkk_g"
     gemini_pro_model: str = "gemini-3.1-pro-preview"   # Works with google.genai
-    gemini_flash_model: str = "gemini-3.1-pro-preview"  # Fallback to Pro (Flash-preview 404s)
-    
+    gemini_flash_model: str = "gemini-2.5-flash"        # Fast model for Adversary
+
     # Agent-to-model routing
     jurist_model: str = gemini_pro_model      # Legal reasoning
-    adversary_model: str = gemini_pro_model  # Using Pro for both (Flash unavailable)
+    adversary_model: str = gemini_flash_model  # Fast adversarial generation
     
     temperature: float = 0.1
     max_tokens: int = 2000

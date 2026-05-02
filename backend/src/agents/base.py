@@ -9,6 +9,7 @@ All agents inherit from BaseAgent which provides:
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
 from google import genai
+from google.genai import types as genai_types
 from src.config import settings
 from src.state.schema import BlindspotState
 
@@ -27,6 +28,11 @@ class BaseAgent(ABC):
         if settings.google_api_key:
             self._client = genai.Client(api_key=settings.google_api_key)
 
+    @property
+    def client(self):
+        """Public alias for the Gemini client."""
+        return self._client
+
     def set_state(self, state: BlindspotState):
         """Inject shared state into agent."""
         self.state = state
@@ -43,10 +49,9 @@ class BaseAgent(ABC):
 
         try:
             # Select model based on agent preference
-            if self.model_preference == "pro":
-                model_name = settings.gemini_pro_model  # gemini-3.1-pro-preview
+            if self.model_preference == "flash":
+                model_name = settings.gemini_flash_model
             else:
-                # Fallback to pro if flash not available
                 model_name = settings.gemini_pro_model
 
             # Build content with system instruction
@@ -58,7 +63,7 @@ class BaseAgent(ABC):
             response = self._client.models.generate_content(
                 model=model_name,
                 contents=full_prompt,
-                config=genai.GenerateContentConfig(
+                config=genai_types.GenerateContentConfig(
                     temperature=temperature,
                     max_output_tokens=settings.max_tokens,
                 ),

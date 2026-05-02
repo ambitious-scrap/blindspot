@@ -7,6 +7,7 @@ Generates concrete exploit scenarios without using any tools.
 from typing import Dict, Any, List
 from src.agents.base import BaseAgent
 from src.state.schema import Clause, ExploitScenario, BlindspotState, Severity
+from src.config import settings
 
 
 class AdversaryAgent(BaseAgent):

@@ -10,6 +10,7 @@ from src.agents.base import BaseAgent
 from src.state.schema import Clause, LegalVerdict, BlindspotState, VerdictLabel, Severity
 from src.retrieval.retriever import get_retriever
 from src.tools.validation import CitationValidator
+from src.config import settings
 
 
 class JuristAgent(BaseAgent):

@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "blindspot-backend"
@@ -13,7 +13,7 @@ dependencies = [
     "pydantic>=2.5.0",
     "pydantic-settings>=2.1.0",
     "chromadb>=0.4.0",
-    "google-generativeai>=0.3.0",
+    "google-genai>=1.0.0",
     "python-docx>=1.1.0",
     "pypdf>=3.17.0",
     "sse-starlette>=2.1.0",

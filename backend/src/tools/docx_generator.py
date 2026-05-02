@@ -8,7 +8,6 @@ import os
 from typing import List, Dict
 from docx import Document
 from docx.shared import Pt, RGBColor, Inches
-from docx.enum.text import WD_RED_LINE
 from src.state.schema import Clause, Rewrite
 
 

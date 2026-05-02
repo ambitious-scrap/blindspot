@@ -21,6 +21,9 @@ class ChiefCounselAgent(BaseAgent):
     name = "chief_counsel"
     description = "Orchestration — planner, router, reconciler, strategist"
 
+    def run(self) -> Dict[str, Any]:
+        return {"plan": self.run_planner()}
+
     def run_planner(self) -> ExecutionPlan:
         """Mode 1: Plan which agents to run after Scout."""
         if not self.state or not self.state.scout_output:
