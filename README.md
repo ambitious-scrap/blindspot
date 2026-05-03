@@ -118,4 +118,4 @@ graph TD
 
 ## 🔗 Demo Link
 - **GitHub Repository**: [https://github.com/ambitious-scrap/blindspot](https://github.com/ambitious-scrap/blindspot)
-- **Live Demo / Deployment**: [Insert Live Demo Link Here]
+- **Live Demo**: [https://dancing-seahorse-d7fd8a.netlify.app/](https://dancing-seahorse-d7fd8a.netlify.app/)
