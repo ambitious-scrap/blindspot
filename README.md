@@ -1,10 +1,10 @@
-# ⚖️ BlindSpot: Autonomous Legal Agent
+#  BlindSpot: Autonomous Legal Agent
 
 **BlindSpot v2.0** is an advanced, autonomous legal agent designed for comprehensive contract review and negotiation. Simply upload a contract, specify your desired terms, and watch an orchestration of specialized AI agents analyze, critique, and negotiate with the counterparty on your behalf—all in real time.
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 - **Multi-Agent Orchestration**: Powered by a LangGraph-style state graph, a crew of 7 distinct AI personas collaboratively review contracts.
 - **Real-Time Streaming**: Utilizing Server-Sent Events (SSE), the React frontend provides live updates as each agent completes its analysis.
 - **Grounded Reasoning**: Employs **ChromaDB** as an embedded vector database to ground agent responses in actual legal rules, statutes, and benchmarks.
@@ -13,7 +13,7 @@
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 BlindSpot is structured around a specialized multi-agent workflow coordinated by a FastAPI backend. Below is the system architecture:
 
@@ -85,7 +85,7 @@ blindspot/
 
 ---
 
-## 🚀 Quickstart
+##  Quickstart
 
 ### Prerequisites
 - **Python** >= 3.10
@@ -126,7 +126,7 @@ docker-compose up --build
 
 ---
 
-## 🎬 Demo
+## Demo
 
 To see BlindSpot in action without requiring manual uploads or a full setup, you can run the provided 90-second automated demo script:
 
@@ -137,7 +137,7 @@ To see BlindSpot in action without requiring manual uploads or a full setup, you
 
 ---
 
-## 🧠 Technical Decisions
+##  Technical Decisions
 - **FastAPI + SSE**: Selected for robust asynchronous support. Server-Sent Events prevent long-polling UI blockers and provide immediate transparency for the user.
 - **Shared Pydantic State**: Using Pydantic v2 offers zero-cost validation. It allows Chief Counsel to cleanly reconcile a unified immutable-like history.
 - **ChromaDB**: Chosen for being a lightweight, serverless vector store perfect for securely managing curated private corpora without relying on heavy cloud databases.
