@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Scout Agent"""
+"""Blindspot — Scout Agent"""
 
 import json
 from typing import List, Dict, Any

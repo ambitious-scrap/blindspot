@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Citation Validation Utility
+"""Blindspot — Citation Validation Utility
 
 Ensures all agent outputs cite only corpus entries (hard constraint #1).
 """

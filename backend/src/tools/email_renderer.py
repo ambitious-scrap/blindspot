@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Email Renderer
+"""Blindspot — Email Renderer
 
 Renders the negotiation email draft from Negotiator agent outputs.
 """

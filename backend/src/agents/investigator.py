@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Investigator Agent
+"""Blindspot — Investigator Agent
 
 Counterparty intelligence using publicly available data sources.
 """

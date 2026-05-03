@@ -1,5 +1,5 @@
 #!/bin/bash
-# Blindspot v2.0 — One-Command Demo Launch
+# Blindspot — One-Command Demo Launch
 
 set -e
 

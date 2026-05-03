@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Negotiator Agent
+"""Blindspot — Negotiator Agent
 
 Synthesizes all prior agent outputs into actionable counter-proposals.
 Generates rewrites, redlined .docx, and negotiation email draft.

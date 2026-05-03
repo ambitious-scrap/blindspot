@@ -1,4 +1,4 @@
-# Blindspot v2.0 — Architecture Decisions
+# Blindspot — Architecture Decisions
 
 ## Framework Choices
 

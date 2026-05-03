@@ -1,6 +1,6 @@
-#  BlindSpot: Autonomous Legal Agent
+# BlindSpot: Autonomous Legal Agent
 
-**BlindSpot v2.0** is an advanced, autonomous legal agent designed for comprehensive contract review and negotiation. Simply upload a contract, specify your desired terms, and watch an orchestration of specialized AI agents analyze, critique, and negotiate with the counterparty on your behalf—all in real time.
+**BlindSpot** is an advanced, autonomous legal agent designed for comprehensive contract review and negotiation. Simply upload a contract, specify your desired terms, and watch an orchestration of specialized AI agents analyze, critique, and negotiate with the counterparty on your behalf—all in real time.
 
 ---
 

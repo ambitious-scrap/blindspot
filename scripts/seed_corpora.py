@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Seed Corpora Script
+"""Blindspot — Seed Corpora Script
 
 Loads and embeds curated corpora into ChromaDB.
 """

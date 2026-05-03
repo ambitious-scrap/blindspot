@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Jurist Agent
+"""Blindspot — Jurist Agent
 
 Evaluates each clause against legal rules corpus and Indian statutes.
 Enforces grounded reasoning — no citations outside the corpus.

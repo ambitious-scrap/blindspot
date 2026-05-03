@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Updated API with Gemini + Real SSE Streaming"""
+"""Blindspot — Updated API with Gemini + Real SSE Streaming"""
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import StreamingResponse, FileResponse, JSONResponse
@@ -27,7 +27,7 @@ file_handler = logging.FileHandler("/tmp/backend.log")
 file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
 logging.getLogger().addHandler(file_handler)
 
-app = FastAPI(title="Blindspot v2.0", version="2.0.0")
+app = FastAPI(title="Blindspot", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -40,7 +40,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"service": "Blindspot v2.0", "status": "running", "models": {
+    return {"service": "Blindspot", "status": "running", "models": {
         "jurist": settings.gemini_pro_model,
         "adversary": settings.gemini_flash_model,
     }, "live_llm_enabled": settings.llm_enabled}

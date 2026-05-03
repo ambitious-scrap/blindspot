@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Configuration.
+"""Blindspot — Configuration.
 
 All thresholds, weights, and model selection live here.
 """

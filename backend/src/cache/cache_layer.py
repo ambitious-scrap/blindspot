@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Cache Layer
+"""Blindspot — Cache Layer
 
 Similarity-based caching for LLM responses.
 Supports disk persistence for demo fallback reliability.

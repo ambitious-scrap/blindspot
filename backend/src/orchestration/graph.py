@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Orchestration Graph."""
+"""Blindspot — Orchestration Graph."""
 
 import asyncio
 from pydantic import BaseModel

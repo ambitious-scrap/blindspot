@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Adversary Agent."""
+"""Blindspot — Adversary Agent."""
 
 import logging
 from typing import Dict, Any, List

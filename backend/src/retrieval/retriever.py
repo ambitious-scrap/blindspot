@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Retrieval Module.
+"""Blindspot — Retrieval Module.
 
 ChromaDB powers vector search when available. JSON-backed lexical search keeps
 the review path alive when the vector store is empty or embeddings fail.

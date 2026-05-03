@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "blindspot-backend"
 version = "1.0.0"
-description = "Blindspot v2.0 - Autonomous Legal Agent Backend"
+description = "Blindspot - Autonomous Legal Agent Backend"
 requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.110.0",

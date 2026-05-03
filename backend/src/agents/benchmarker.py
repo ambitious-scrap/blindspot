@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Benchmarker Agent
+"""Blindspot — Benchmarker Agent
 
 Compares each clause against benchmark clauses corpus.
 Produces deviation scores and market standard verdicts.

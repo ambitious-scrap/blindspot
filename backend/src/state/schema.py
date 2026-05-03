@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Shared State Schema
+"""Blindspot — Shared State Schema
 
 All agents read from and write to BlindspotState.
 """

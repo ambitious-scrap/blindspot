@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Chief Counsel Agent
+"""Blindspot — Chief Counsel Agent
 
 Orchestration meta-agent operating in four modes:
 1. Planner — after Scout, decides which downstream agents to run

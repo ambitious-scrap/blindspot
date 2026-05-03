@@ -1,4 +1,4 @@
-"""Blindspot v2.0 — Base Agent Class (Google GenAI)
+"""Blindspot — Base Agent Class (Google GenAI)
 
 All agents inherit from BaseAgent which provides:
 - Shared state access
