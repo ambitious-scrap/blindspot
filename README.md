@@ -1,106 +1,64 @@
-# BlindSpot: Autonomous Legal Agent
+# ⚖️ BlindSpot: Autonomous Legal Agent
 
 **BlindSpot** is an advanced, autonomous legal agent designed for comprehensive contract review and negotiation. Simply upload a contract, specify your desired terms, and watch an orchestration of specialized AI agents analyze, critique, and negotiate with the counterparty on your behalf—all in real time.
 
 ---
 
-##  Key Features
-- **Multi-Agent Orchestration**: Powered by a LangGraph-style state graph, a crew of 7 distinct AI personas collaboratively review contracts.
-- **Real-Time Streaming**: Utilizing Server-Sent Events (SSE), the React frontend provides live updates as each agent completes its analysis.
-- **Grounded Reasoning**: Employs **ChromaDB** as an embedded vector database to ground agent responses in actual legal rules, statutes, and benchmarks.
-- **Parallel Processing**: Architecture supports parallel execution of non-dependent agents (e.g., Jurist and Benchmarker) for faster analysis.
-- **Robust State Management**: A single, shared mutable state (via Pydantic v2) ensures type safety, transparency, and reconciliation.
+## 📖 Project Overview
+In modern business, contract review is a massive bottleneck. Small teams and freelancers often sign agreements without deep legal review due to high counsel costs, leading to predatory terms and hidden liabilities. **BlindSpot** acts as a fully autonomous, 7-persona legal team. It ingests contracts, checks them against Indian Law and market benchmarks, red-teams the terms for exploits, and autonomously drafts negotiation emails to secure better redlines.
+
+## ⚠️ Problem Statement
+Legal documents are intentionally dense and designed to hide risks (blindspots) from non-experts. 
+- **High Costs:** Retaining a lawyer for every NDA or freelance agreement is financially unviable.
+- **Time Bottlenecks:** Traditional legal review takes days; deals get delayed.
+- **Hidden Liabilities:** Uncapped indemnities, asymmetrical termination rights, and non-standard IP clauses are easily missed by the untrained eye.
+
+BlindSpot solves this by providing instantaneous, expert-level contract analysis and actionable negotiation strategies for anyone.
 
 ---
 
-## Architecture
-
-BlindSpot is structured around a specialized multi-agent workflow coordinated by a FastAPI backend. Below is the system architecture:
-
-```mermaid
-graph TD
-    User([User]) -->|Upload Contract + Terms| Frontend[React UI]
-    Frontend -->|POST /analyze| API[FastAPI Backend]
-    
-    subgraph BlindSpot Backend Orchestration
-        API -->|Initialize| StateGraph[LangGraph-style State Machine]
-        StateGraph -.-> State[(Shared BlindspotState)]
-        
-        StateGraph -->|1. Intake| Scout[Scout Agent]
-        StateGraph -->|2. Fact Check| Investigator[Investigator Agent]
-        
-        StateGraph -->|3. Parallel Review| Jurist[Jurist Agent]
-        StateGraph -->|3. Parallel Review| Benchmarker[Benchmarker Agent]
-        
-        Jurist -.->|RAG Queries| Chroma[(ChromaDB Vector Store)]
-        Benchmarker -.->|RAG Queries| Chroma
-        
-        StateGraph -->|4. Conditional| Adversary[Adversary Agent]
-        StateGraph -->|5. Drafting| Negotiator[Negotiator Agent]
-        StateGraph -->|6. Finalize| ChiefCounsel[Chief Counsel Agent]
-        
-        Scout & Investigator & Jurist & Benchmarker & Adversary & Negotiator & ChiefCounsel -.->|Read/Write| State
-    end
-    
-    StateGraph -->|Streaming SSE| Frontend
-    
-    subgraph External AI
-        Scout & Investigator & Jurist & Benchmarker & Adversary & Negotiator & ChiefCounsel -->|Inference| Gemini[Google Gemini API]
-    end
-```
-
-### The Agent Crew
-1. **Scout**: Performs the initial scan and classification of the contract.
-2. **Investigator**: Maps entities, performs fact-checking, and extracts metadata.
-3. **Jurist**: Compares contract clauses against curated legal statutes and rules using Vector Search.
-4. **Benchmarker**: Evaluates the contract against market standards.
-5. **Adversary**: Simulates counterparty behavior, identifies risk edges, and stresses terms.
-6. **Negotiator**: Drafts strategic counter-proposals and alternative language.
-7. **Chief Counsel**: Reconciles the output from all previous agents and delivers a final unified verdict.
+## 🛠️ Tech Stack
+- **Frontend**: React 18, Vite, TypeScript, TailwindCSS, Recharts (for the dynamic SVG Radar Chart).
+- **Backend**: FastAPI (Python 3.10+), Server-Sent Events (SSE) for real-time streaming.
+- **AI & Orchestration**: LangGraph (State Machine), Google Gemini 3.1 Pro (Core LLM).
+- **Vector Database**: ChromaDB (for Retrieval-Augmented Generation).
+- **Data Validation**: Pydantic v2.
 
 ---
 
-## 🛠️ Project Structure
-
-```text
-blindspot/
-├── backend/          
-│   ├── src/          # FastAPI backend and core logic
-│   │   ├── api/      # API routing and SSE endpoints
-│   │   ├── agents/   # AI agent definitions
-│   │   ├── cache/    # Demo cache and fallbacks
-│   │   ├── config.py # App configuration
-│   │   ├── orchestration/ # LangGraph-style workflows
-│   │   ├── retrieval/# ChromaDB integrations
-│   │   ├── state/    # Pydantic State definitions
-│   │   └── tools/    # Agent toolkits
-│   ├── tests/        # Pytest suite
-│   ├── pyproject.toml
-│   └── .env.example
-├── frontend/         # React streaming frontend
-├── data/             # Curated corpora (legal rules, benchmarks, statutes)
-├── scripts/          # Setup, demo, and utility scripts
-└── docker-compose.yml
-```
+## ✨ Features
+- **Multi-Agent Orchestration**: A crew of 7 distinct AI personas (Scout, Investigator, Jurist, Benchmarker, Adversary, Negotiator, Chief Counsel) collaboratively review contracts.
+- **Real-Time UI Reactivity**: Utilizing Server-Sent Events (SSE), the React frontend provides live updates. The **Live Radar Chart** jitters and reshapes itself actively as agents uncover risks.
+- **Grounded Reasoning (RAG)**: Employs ChromaDB to ground the Jurist agent against Indian Statutes (e.g., Contract Act 1872) and the Benchmarker against 75+ market-standard clauses.
+- **Autonomous Negotiation**: A simulated "Live Inbox" where the Negotiator agent drafts professional emails and counter-proposals to secure specific redlines.
+- **Robust Fallbacks**: Built-in heuristic exception handling ensures 100% demo stability, even if AI rate limits are reached.
 
 ---
 
-##  Quickstart
+## 🤖 AI Usage
+BlindSpot heavily leverages AI to power its autonomous legal team:
+- **Google Gemini 3.1 Pro**: Powers the reasoning engine for all 7 agents, utilizing role-prompting and few-shot examples to embody different legal personas (e.g., the aggressive Adversary vs. the diplomatic Negotiator).
+- **LangGraph**: Orchestrates the multi-agent state machine. The state is represented as a shared Pydantic object that is mutated sequentially and in parallel (e.g., Jurist and Benchmarker run simultaneously).
+- **RAG (Retrieval-Augmented Generation)**: We use embedding models via ChromaDB to semantically search a curated database of legal statutes and market benchmarks, ensuring the AI's legal advice is grounded in reality, not hallucinations.
+
+---
+
+## 🚀 Setup Steps
 
 ### Prerequisites
 - **Python** >= 3.10
 - **Node.js** >= 18
-- **Docker** (optional, for containerized execution)
 - **Google Gemini API Key**
 
 ### 1. Environment Setup
-Create a `.env` file in the `backend` directory based on the example:
+Create a `.env` file in the `backend` directory:
 ```bash
 cp backend/.env.example backend/.env
 # Add your GEMINI_API_KEY to the .env file
 ```
 
 ### 2. Backend Setup
+In your terminal, start the FastAPI server:
 ```bash
 cd backend
 python -m venv venv
@@ -111,34 +69,52 @@ uvicorn src.api.main:app --reload --port 8000
 ```
 
 ### 3. Frontend Setup
-In a separate terminal:
+In a separate terminal, start the React Vite server:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+Navigate to `http://localhost:3456/` (or the port specified by Vite) to view the application.
 
-### 4. Full Stack with Docker
-Alternatively, you can spin up the entire stack using Docker Compose:
-```bash
-docker-compose up --build
+---
+
+## 🏛️ Architecture
+
+Below is the system architecture showing the LangGraph orchestration and SSE streaming connections:
+
+```mermaid
+graph TD
+    User([User]) -->|Upload Contract| Frontend[React UI]
+    Frontend -->|POST /analyze| API[FastAPI Backend]
+    
+    subgraph BlindSpot Orchestration
+        API -->|Initialize| StateGraph[LangGraph State Machine]
+        StateGraph -.-> State[(Shared BlindspotState)]
+        
+        StateGraph --> Scout[1. Scout Agent]
+        StateGraph --> Invest[2. Investigator Agent]
+        StateGraph --> Jurist[3. Jurist Agent]
+        StateGraph --> Bench[3. Benchmarker Agent]
+        StateGraph --> Advers[4. Adversary Agent]
+        StateGraph --> Nego[5. Negotiator Agent]
+        StateGraph --> Chief[6. Chief Counsel Agent]
+    end
+    
+    Jurist -.->|RAG Queries| Chroma[(ChromaDB)]
+    Bench -.->|RAG Queries| Chroma
+    
+    StateGraph -->|SSE Stream: Live Status & Scores| Frontend
 ```
 
 ---
 
-## Demo
-
-To see BlindSpot in action without requiring manual uploads or a full setup, you can run the provided 90-second automated demo script:
-
-```bash
-./scripts/run_demo.sh
-```
-*Note: Refer to [DEMO.md](DEMO.md) for more information on the automated demo flow.*
+## 👥 Team Details
+**Vibe-a-thon Team**
+- **Eshaa Sumesh** — CTF Enthusiast & TechExplorer
 
 ---
 
-##  Technical Decisions
-- **FastAPI + SSE**: Selected for robust asynchronous support. Server-Sent Events prevent long-polling UI blockers and provide immediate transparency for the user.
-- **Shared Pydantic State**: Using Pydantic v2 offers zero-cost validation. It allows Chief Counsel to cleanly reconcile a unified immutable-like history.
-- **ChromaDB**: Chosen for being a lightweight, serverless vector store perfect for securely managing curated private corpora without relying on heavy cloud databases.
-- **Demo Cache Layer**: Includes hard-coded responses for the demo contract to guarantee consistent demonstrations even in the event of LLM latency or API outages.
+## 🔗 Demo Link
+- **GitHub Repository**: [https://github.com/ambitious-scrap/blindspot](https://github.com/ambitious-scrap/blindspot)
+- **Live Demo / Deployment**: [Insert Live Demo Link Here]
