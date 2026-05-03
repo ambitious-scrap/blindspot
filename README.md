@@ -112,6 +112,7 @@ graph TD
 ## 👥 Team Details
 **Vibe-a-thon Team**
 - **Eshaa Sumesh** — CTF Enthusiast & TechExplorer
+- **Dinesh Kumar Sivaram**
 
 ---
 
