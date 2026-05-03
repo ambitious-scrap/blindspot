@@ -1,0 +1,80 @@
+graph TD
+    %% Styling
+    classDef default fill:#1A202C,stroke:#4A5568,stroke-width:1px,color:#E2E8F0;
+    classDef zone fill:#2D3748,stroke:#A0AEC0,stroke-width:2px,color:#F7FAFC;
+    classDef frontend fill:#2B6CB0,stroke:#63B3ED,stroke-width:2px,color:#fff;
+    classDef agent fill:#2C7A7B,stroke:#4FD1C5,stroke-width:2px,color:#fff;
+    classDef chief fill:#975A16,stroke:#F6E05E,stroke-width:2px,color:#fff;
+    classDef db fill:#4A5568,stroke:#CBD5E0,stroke-width:1px,color:#E2E8F0;
+    classDef shared fill:#000,stroke:#C9A84C,stroke-width:2px,color:#C9A84C;
+    
+    %% ZONE 1: USER FRONTEND
+    subgraph Zone1[ZONE 1 — USER FRONTEND (React)]
+        Input[Upload Document + Context]
+        UI1[Live Radar Chart (Health Index)]
+        UI2[CrewView Pipeline (UP NEXT / QUEUED)]
+        UI3[Live Negotiation Inbox]
+    end
+    
+    %% Frontend Connections
+    Input -->|POST /analyze| API[FastAPI Backend]
+    
+    %% ZONE 2: BACKEND & ORCHESTRATION
+    subgraph Zone2[ZONE 2 — BACKEND & ORCHESTRATION]
+        
+        API -->|Initialize| StateGraph[LangGraph State Machine]
+        StateGraph -.-> State[(Shared BlindspotState)]
+        
+        subgraph Agents[7-AGENT CREW]
+            Scout[🔍 Scout Agent<br>Intake & Structuring]
+            Plan[🧭 Chief Counsel<br>Initial Strategy Plan]
+            Invest[🕵️ Investigator Agent<br>Risk Tier & Fact Check]
+            Jurist[⚖️ Jurist Agent<br>Statutes & Penalties]
+            Bench[📊 Benchmarker Agent<br>Market Standards]
+            Advers[🎭 Adversary Agent<br>Red-Team Exploits]
+            Synth[🧭 Chief Counsel<br>Final Synthesis]
+            Nego[🤝 Negotiator Agent<br>Drafts & Emails]
+            
+            %% Execution Flow
+            Scout --> Plan
+            Plan --> Invest
+            Invest --> Jurist
+            Invest --> Bench
+            Jurist --> Advers
+            Bench --> Advers
+            Advers --> Synth
+        end
+        
+        %% Negotiation trigger
+        API_Neg[POST /negotiate] --> Nego
+        Synth -.->|Triggers manual start| API_Neg
+        
+        %% State Reads/Writes
+        Scout & Plan & Invest & Jurist & Bench & Advers & Synth & Nego -.->|R/W| State
+    end
+    
+    %% ZONE 3: KNOWLEDGE & MODELS
+    subgraph Zone3[ZONE 3 — INTELLIGENCE]
+        Chroma[(ChromaDB Vector Store<br>Statutes / Rules / Benchmarks)]
+        Gemini((Google Gemini 3.1 Pro))
+    end
+    
+    %% RAG Connections
+    Jurist -.->|Search Rules| Chroma
+    Bench -.->|Search Clauses| Chroma
+    
+    %% Model Connections
+    Agents -.->|Inference| Gemini
+    
+    %% Streaming Connections back to UI
+    StateGraph -.->|SSE Stream: agent_working/complete| UI2
+    StateGraph -.->|SSE Stream: scores update| UI1
+    Nego -.->|SSE Stream: outbound_sent/decision| UI3
+    
+    %% Apply Classes
+    class Zone1,Zone2,Zone3 zone;
+    class Input,UI1,UI2,UI3 frontend;
+    class Scout,Invest,Jurist,Bench,Advers,Nego agent;
+    class Plan,Synth chief;
+    class Chroma,Gemini db;
+    class State shared;
